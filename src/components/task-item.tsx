@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
-import { Pressable } from 'react-native';
-import { PanGestureHandlerProps } from 'react-native-gesture-handler';
-import { Box, HStack, Text, theme, useTheme, useColorModeValue, themeTools, Icon } from 'native-base';
+import { NativeSyntheticEvent, Pressable, TextInputChangeEventData } from 'react-native';
+import { PanGestureHandlerProps, TextInput } from 'react-native-gesture-handler';
+import { Box, HStack, Text, theme, useTheme, useColorModeValue, themeTools, Icon, Input } from 'native-base';
 import AnimatedCheckbox from 'react-native-checkbox-reanimated';
 
 import AnimatedTaskLabel from './animated-task-label';
@@ -9,15 +9,28 @@ import SwipeableView from './swipeable-view';
 import {Feather} from '@expo/vector-icons';
 
 interface Props extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
+    isEditing: boolean,
     isDone: boolean,
     onToggleCheckbox?: () => void,
     onPressLabel?: () => void,
     onRemove?: () => void,
+    onChangeSubject?: (subject: string) => void
+    onFinishEditing?: () => void,
     subject: string
 }
 
  export default function TaskItem (props: Props) {
-   const { isDone, onToggleCheckbox, onPressLabel, onRemove, subject, simultaneousHandlers } = props;
+   const {
+       isEditing,
+       isDone,
+       onToggleCheckbox,
+       onPressLabel,
+       onRemove,
+       onChangeSubject,
+       onFinishEditing,
+       subject,
+       simultaneousHandlers
+    } = props;
 
     const theme = useTheme();
 
@@ -26,6 +39,10 @@ interface Props extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
     const checkmarkColor = themeTools.getColor(theme, useColorModeValue('white', 'white'));
     const activeTextColor = themeTools.getColor(theme, useColorModeValue('darkText', 'lightText'))
     const doneTextColor = themeTools.getColor(theme, useColorModeValue('muted.500', 'muted.600'));
+
+    const handleChangeSubject = useCallback((event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        onChangeSubject && onChangeSubject(event.nativeEvent.text)
+    }, [onChangeSubject])
 
     return (
         <SwipeableView 
@@ -48,13 +65,28 @@ interface Props extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
                         />
                     </Pressable>
                 </Box>
-                <AnimatedTaskLabel 
-                    strikethrough={isDone}
-                    textColor={activeTextColor}
-                    inactiveTextColor={doneTextColor}
-                >
-                    {subject}
-                </AnimatedTaskLabel>
+                {isEditing ? (
+                    <Input 
+                        placeholder='Task'
+                        value={subject}
+                        variant="unstyled"
+                        fontSize={19}
+                        px={1} py={0}
+                        autoFocus
+                        blurOnSubmit
+                        onChange={handleChangeSubject} 
+                        onBlur={onFinishEditing} 
+                    />
+                ) : (
+                    <AnimatedTaskLabel 
+                        strikethrough={isDone}
+                        textColor={activeTextColor}
+                        inactiveTextColor={doneTextColor}
+                        onPress={onPressLabel}
+                    >
+                        {subject}
+                    </AnimatedTaskLabel>
+                )}
             </HStack>
         </SwipeableView>
     )
