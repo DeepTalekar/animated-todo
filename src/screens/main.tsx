@@ -5,6 +5,7 @@ import shortid from 'shortid';
 
 import ThemeToggle from '../components/theme-toggle';
 import TaskList from '../components/task-list';
+import AnimatedColorBox from './../components/animated-color-box';
 
 const initialData = [
     {
@@ -66,7 +67,7 @@ export default function MainScreen( ) {
     }, [])
 
     return (
-        <Center _dark={{bg: 'blueGray.900'}} _light={{bg: 'blueGray.50'}} flex={1} >
+        <AnimatedColorBox bg={useColorModeValue('warmGray.50', 'primary.900')} w="full"  flex={1} >
             <VStack alignItems={"center"} space={5} w="full">
                 <TaskList 
                     data={data}
@@ -100,7 +101,7 @@ export default function MainScreen( ) {
                     setEditingItemId(id);
                 }}
             />
-        </Center>
+        </AnimatedColorBox>
 
     )
 }
