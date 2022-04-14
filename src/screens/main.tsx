@@ -7,6 +7,7 @@ import ThemeToggle from '../components/theme-toggle';
 import TaskList from '../components/task-list';
 import AnimatedColorBox from './../components/animated-color-box';
 import Masthead from './../components/masthead';
+import NavBar from './../components/navbar';
 
 const initialData = [
     {
@@ -70,9 +71,20 @@ export default function MainScreen( ) {
     return (
         <AnimatedColorBox bg={useColorModeValue('warmGray.50', 'primary.900')} w="full"  flex={1} >
             <Masthead title="Whats up, Deep!" image={require('../../assets/masthead.png')}>
-
+                <NavBar />
             </Masthead>
-            <VStack alignItems={"center"} space={5} w="full">
+            <VStack 
+                // alignItems={"center"}
+                space={1}
+                flex={1}
+                // borderWidth={1}
+                // borderColor={'black'}
+                // w="full"
+                mt="-20px"
+                bg={useColorModeValue('warmGray.50', 'primary.900')}
+                borderTopLeftRadius="20px"
+                borderTopRightRadius="20px" 
+                pt="20px">
                 <TaskList 
                     data={data}
                     onToggleItem={handleToggleTaskItem}
@@ -82,8 +94,6 @@ export default function MainScreen( ) {
                     onRemoveItem={handleRemoveItem}
                     editingItemId={editingItemId}
                 />
-
-                <ThemeToggle />
             </VStack>
             <Fab
                 position={'absolute'}

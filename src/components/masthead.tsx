@@ -10,7 +10,7 @@ interface Props {
 
 const Masthead = ({title, image, children}: Props) => {
     return (
-        <VStack h="300px" pb={5} mt={StatusBar.currentHeight}>
+        <VStack h="300px" pb={5}>
             <Image
                 position={"absolute"}
                 left={0}
