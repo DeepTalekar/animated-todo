@@ -1,5 +1,5 @@
 import React  from 'react';
-import {Dimensions, ImageSourcePropType, Platform, StatusBar} from 'react-native';
+import {ImageSourcePropType} from 'react-native';
 import { Box, VStack, Heading, Image, useColorModeValue } from 'native-base';
 
 interface Props {
