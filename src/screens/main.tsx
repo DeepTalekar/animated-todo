@@ -6,6 +6,7 @@ import shortid from 'shortid';
 import ThemeToggle from '../components/theme-toggle';
 import TaskList from '../components/task-list';
 import AnimatedColorBox from './../components/animated-color-box';
+import Masthead from './../components/masthead';
 
 const initialData = [
     {
@@ -68,6 +69,9 @@ export default function MainScreen( ) {
 
     return (
         <AnimatedColorBox bg={useColorModeValue('warmGray.50', 'primary.900')} w="full"  flex={1} >
+            <Masthead title="Whats up, Deep!" image={require('../../assets/masthead.png')}>
+
+            </Masthead>
             <VStack alignItems={"center"} space={5} w="full">
                 <TaskList 
                     data={data}
